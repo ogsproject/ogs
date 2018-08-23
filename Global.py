@@ -1,0 +1,2 @@
+
+MinecraftServerManagerConfigPath = "config.json"
