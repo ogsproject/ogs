@@ -1,12 +1,7 @@
 
 import subprocess, threading, time, os, shutil
 import MinecraftServerConfiguration
-
-JavaBinPath = "/usr/bin/java"
-MinecraftServerJarPath = "server.jar"
-SourceMinecraftServerJarPath = "server.jar"
-MinecraftServerArgs = ["nogui"] 
-MinecraftServerName = "server1"
+import Global
 
 class MinecraftServerWatcher(threading.Thread):
     def __init__(self, server):
@@ -24,6 +19,7 @@ class MinecraftServerListener(threading.Thread):
     def run(self):
         while True:
             line = self.server.process.stdout.readline().strip()
+            print (line)
 
 class MinecraftServer():
     def __init__(self, name, directory = None, startMemory = "1024M", maxMemory = "1024M"):
@@ -53,13 +49,13 @@ class MinecraftServer():
             raise Exception("Server already exists")
 
         os.mkdir(self.workingDirectory)
-        shutil.copy2(SourceMinecraftServerJarPath, self.workingDirectory)
+        shutil.copy2(Global.SourceMinecraftServerJarPath, self.workingDirectory)
 
         args = []
-        args.append(JavaBinPath)
+        args.append(Global.JavaBinPath)
         args.append("-jar")
-        args.append(MinecraftServerJarPath)
-        for a in MinecraftServerArgs:
+        args.append(Global.MinecraftServerJarPath)
+        for a in Global.MinecraftServerArgs:
           args.append(a)
 
         process = subprocess.Popen(args,
@@ -74,14 +70,14 @@ class MinecraftServer():
         process.wait()
         self.acceptEula()
 
-    def run(self):
+    def start(self):
         args = []
-        args.append(JavaBinPath)
+        args.append(Global.JavaBinPath)
         args.append("-Xmx" + self.maxMemory)
         args.append("-Xms" + self.startMemory)
         args.append("-jar")
-        args.append(MinecraftServerJarPath)
-        for a in MinecraftServerArgs:
+        args.append(Global.MinecraftServerJarPath)
+        for a in Global.MinecraftServerArgs:
           args.append(a)
 
         self.process = subprocess.Popen(args,

@@ -16,12 +16,7 @@ def new(args):
     server.config.save()
 
 def run(args):
-    server = MinecraftServer.MinecraftServer(args.name)
-    if not server.isConfigured():
-        print ("Server is not configurated or does not exists")
-        return False
-    else:
-        server.run()
+    manager.start(args.name)
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()

@@ -1,10 +1,10 @@
 import json, os
 import MinecraftServer
+import ConfigObject
 
-class MinecraftServerManagerConfig:
+class MinecraftServerManagerConfig(ConfigObject.Config):
     def __init__(self, filePath):
-        self.filePath = filePath
-        self.dict = {
+        ConfigObject.Config.__init__(self, filePath, {
                 "server" :
                 {
                     "host" : "0.0.0.0",
@@ -14,17 +14,7 @@ class MinecraftServerManagerConfig:
                 "server-list" : 
                 [
                 ]
-        }
-
-
-    def load(self): 
-        with open(self.filePath, "r") as f:
-            jsondict = json.load(f)
-            jsondict.update(self.dict)
-
-    def save(self): 
-        with open(self.filePath, "w") as f:
-            self.dict = json.dump(self.dict, f, sort_keys=True, indent=4)
+        })
 
 class MinecraftServerManager:
     def __init__(self, filePath):
@@ -35,17 +25,29 @@ class MinecraftServerManager:
             self.config.load()
 
         self.serverList = []
-        for s in self.config.dict["server-list"]:
-            self.serverList.append(MinecraftServer.MinecraftServer(s["name"]))
+        for s in self.config.get("server-list"):
+            directory = os.path.join(self.config.get("server", "working-directory"), s["name"])
+            self.serverList.append(MinecraftServer.MinecraftServer(s["name"], directory = directory))
 
-        if not os.path.isdir(self.config.dict["server"]["working-directory"]):
-            os.mkdir(self.config.dict["server"]["working-directory"])
+        if not os.path.isdir(self.config.get("server", "working-directory")):
+            os.mkdir(self.config.get("server", "working-directory"))
 
     def createServer(self, name):
-        directory = os.path.join(self.config.dict["server"]["working-directory"], name)
+        directory = os.path.join(self.config.get("server", "working-directory"), name)
         server = MinecraftServer.MinecraftServer(name, directory = directory)
         if server.isConfigured():
             raise Exception("Server already exists")
         else:
             server.create()
+            self.__appendServer(server)
             return server
+
+    def __appendServer(self, server):
+        self.config.get("server-list").append({"name" : server.name})
+        self.config.save()
+
+    def start(self, name):
+        for s in self.serverList:
+            if s.name == name:
+                s.start()
+
