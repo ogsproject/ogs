@@ -11,6 +11,13 @@ class ConfigElement:
         for k in sourceDict.keys():
             if type(sourceDict[k]) is dict:
                 self.__data[k] = ConfigElement(sourceDict[k])
+            if type(sourceDict[k]) is list:
+                self.__data[k] = []
+                for e in sourceDict[k]:
+                    if type(e) is dict:
+                        self.__data[k].append(ConfigElement(e))
+                    else:
+                        self.__data[k].append(e)
 
     def toDict(self):
         returnValue = {}
@@ -39,19 +46,23 @@ class ConfigElement:
 
         return current
 
+    def set(self, *args, value):
+        obj = self
+        if len(args) > 1:
+            obj = self.get(args[0:-1])
+        obj.__data[args[-1]] = value
 
 
 class Config:
-    def __init__(self, filePath, baseDict):
+    def __init__(self, filePath, baseDict = {}):
         self.filePath = filePath
         self.__element = ConfigElement(baseDict)
 
     def load(self):
-        pass
-#        with open(self.filePath, "r") as f:
-#            jsondict = json.load(f)
+        with open(self.filePath, "r") as f:
+            jsondict = json.load(f)
 #            self.__validateLoadedDict(jsondict, self.__baseDict)
-#            self.__element.update(jsondict)
+            self.__element.update(jsondict)
 
     def get(self, *args):
         return self.__element.get(*args)
