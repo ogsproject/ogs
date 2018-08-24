@@ -1,6 +1,6 @@
 import json, os
-import MinecraftServer
-import ConfigObject
+from MinecraftServerManager import MinecraftServer
+from MinecraftServerManager import ConfigObject
 
 class MinecraftServerManagerConfig(ConfigObject.Config):
     def __init__(self, filePath):
@@ -25,8 +25,9 @@ class MinecraftServerManager:
             self.config.load()
 
         self.serverList = []
+        print (self.config.get("server-list"))
         for s in self.config.get("server-list"):
-            directory = os.path.join(self.config.get("server", "working-directory"), s["name"])
+            directory = os.path.join(self.config.get("server", "working-directory"), s.get("name"))
             self.serverList.append(MinecraftServer.MinecraftServer(s["name"], directory = directory))
 
         if not os.path.isdir(self.config.get("server", "working-directory")):

@@ -2,10 +2,10 @@
 
 import argparse
 
-import MinecraftServer
-import MinecraftServerConfiguration
-import MinecraftServerManager
-import Global
+from MinecraftServerManager import MinecraftServer
+from MinecraftServerManager import MinecraftServerConfiguration
+from MinecraftServerManager import MinecraftServerManager
+from MinecraftServerManager import Global
 
 manager = MinecraftServerManager.MinecraftServerManager(Global.MinecraftServerManagerConfigPath)
 

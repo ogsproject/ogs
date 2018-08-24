@@ -1,7 +1,7 @@
 
 import subprocess, threading, time, os, shutil
-import MinecraftServerConfiguration
-import Global
+from MinecraftServerManager import MinecraftServerConfiguration
+from MinecraftServerManager import Global
 
 class MinecraftServerWatcher(threading.Thread):
     def __init__(self, server):
