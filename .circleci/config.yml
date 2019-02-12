@@ -8,5 +8,6 @@ jobs:
       - run: sudo pip install --upgrade pip
       - run: sudo pip install coverage
       - run: sudo pip install codacy-coverage
+      - run: export CODACY_PROJECT_TOKEN=8487e936bb8d4b3e8e4638c48dae1b10
       - run: coverage run test.py
       - run: coverage report
