@@ -1,6 +1,7 @@
 
 import unittest, json, os
-from MinecraftServerManager import ConfigObject
+from OpenGameServer import ConfigObject
+
 
 class ConfigElementTest(unittest.TestCase):
 

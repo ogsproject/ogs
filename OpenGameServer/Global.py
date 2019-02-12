@@ -1,6 +1,7 @@
 import os
 from OpenGameServer import ConfigObject
 
+# directory 
 
 class Global(object):
     def __init__(self):
@@ -9,7 +10,6 @@ class Global(object):
         self.GlobalConfigFilename = "global.json"
         self.config = ConfigObject.Config(os.path.join(self.GlobalConfigPath, self.GlobalConfigFilename), ConfigObject.ConfigDict({
             "MinecraftServerManagerConfigLocation" : self.GlobalConfigPath,
-            "MinecraftServerManagerConfigFilename" : "server.json",
             "ServerRootLocation" : os.path.join(self.RootPath, "servers"),
             "ServerBinaryLocation" : os.path.join(self.RootPath, "binary"),
             "JavaBinPath" : "java"
@@ -20,13 +20,8 @@ class Global(object):
             self.config.load()
 
 
-    @property
     def MinecraftServerManagerConfigLocation(self):
         return self.config.element["MinecraftServerManagerConfigLocation"].get()
-
-    @property
-    def MinecraftServerManagerConfigFilename(self):
-        return self.config.element["MinecraftServerManagerConfigFilename"].get()
 
     @property
     def MinecraftServerManagerConfigFilePath(self):

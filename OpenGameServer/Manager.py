@@ -21,19 +21,12 @@ class PluginManager(object):
                 spec = importlib.util.spec_from_file_location(d, os.path.join(path, d, "__init__.py"))
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
-                self.plugins[module.game] = module
+                game = module.getGame()
+                self.plugins[game.name] = game
             except Exception as e:
                 print ("error loading module %s : %s" % (d, str(e)))
 
-    def initPlugins(self, manager):
-        for k in self.plugins.keys():
-            try:                
-                self.plugins[k].init(manager)
-            except Exception as e:
-                print ("Failed to init %s" %k)
-                traceback.print_tb(e.__traceback__)
-
-    def getPlugin(self, name):
+    def getGame(self, name):
         if not name in self.plugins.keys():
             return None
         return self.plugins[name]
@@ -65,7 +58,6 @@ class Manager(object):
             os.mkdir(self.config["ServerBinaryLocation"].get())
 
         self.pluginManager.load(os.path.join(os.path.dirname(__file__), "plugins"))
-        self.pluginManager.initPlugins(self)
 
 
     def getFileFromUrl(self , version):
@@ -82,11 +74,11 @@ class Manager(object):
         pass
 
     def getServer(self, config):
-        plugin = self.pluginManager.getPlugin(config["game"].get())
-        if plugin == None:
+        game = self.pluginManager.getGame(config["game"].get())
+        if game == None:
             raise Exception("No plugin for %s" %(config["game"].get()))
 
-        server = plugin.get(config)
+        server = game.getServer(config)
         if not issubclass(type(server), Server.Server):
             raise Exception("Not a sub class of Server.Server")
 

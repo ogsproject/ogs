@@ -3,16 +3,12 @@ from OpenGameServer import Downloader
 
 
 class MinecraftServer(Server.Server):
-    ServerVersionURL = {
-                "1.13.2" : "https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
-            }
-
-    
-    def __init__(self, config):
+    def __init__(self, game, config):
+        self.game = game
         Server.Server.__init__(self, config)
 
     def create(self, config):
-        downloadedFile = Downloader.getFileFromUrl(self.ServerVersionURL["1.13.2"])
+        downloadedFile = Downloader.getFileFromUrl(self.game.ServerVersionURL["1.13.2"])
         with open("server.ar", "wb") as f:
             f.write(downloadedFile.read())
         

@@ -25,7 +25,6 @@ class ConfigException(Exception):
 
 class ConfigElement(object):
     def __init__(self):
-        self.default = True
         self.parent = None
         self.config = None
         pass
@@ -33,7 +32,7 @@ class ConfigElement(object):
     def toJson(self):
         raise NotImplementedError
 
-    def set(self, data, default = False):
+    def set(self, data):
         raise NotImplementedError
 
     def postSet(self):
@@ -52,18 +51,16 @@ class ConfigScalar(ConfigElement):
     def __init__(self, data, description = None):
         ConfigElement.__init__(self)
         self.__description = description
-        self.set(data, True)
+        self.set(data)
 
-    def set(self, data, default = False):
+    def set(self, data):
         if type(data) != int and\
             type(data) != bool and\
             type(data) != str and\
             type(data) != float:
                 raise ConfigException("")
         self.__data = data
-        self.default = default
-        if not default:
-            ConfigElement.postSet(self)
+        ConfigElement.postSet(self)
 
     def get(self):
         return self.__data
@@ -76,20 +73,18 @@ class ConfigScalar(ConfigElement):
 class ConfigDict(ConfigElement):
     def __init__(self, data, description = None):
         ConfigElement.__init__(self)
-        self.set(data, True)
+        self.set(data)
 
-    def set(self, data, default = False):
+    def set(self, data):
         if not type(data) == dict:
             raise ConfigException("Not a dict")
         self.__data = {}
         for k in data.keys():
             element = toConfigElement(data[k])
-            element.default = default
             element.parent = self
             element.config = self.config
             self.__data[k] = element
-        if not default:
-            ConfigElement.postSet(self)
+        ConfigElement.postSet(self)
 
     def toJson(self):
         result = {}
@@ -112,7 +107,6 @@ class ConfigDict(ConfigElement):
     def __setitem__(self, k, v):
         element = toConfigElement(v)
         self.__data[k] = element
-        element.default = False
         element.parent = self
         element.config = self.config
         ConfigElement.postSet(self)
@@ -123,24 +117,22 @@ class ConfigDict(ConfigElement):
 class ConfigList(ConfigElement):
     def __init__(self, data = [], description = None):
         ConfigElement.__init__(self)
-        self.set(data, True)
+        self.set(data)
 
     def append(self, data):
         self.__data.append(toConfigElement(data))
         ConfigElement.postSet(self)
 
-    def set(self, data, default = False):
+    def set(self, data):
         if not type(data) == list:
             raise ConfigException("Not a list")
         self.__data = []
         for e in data:
             element = toConfigElement(e)
-            element.default = default
             element.parent = self
             element.config = self.config
             self.append(element)
-        if not default:
-            ConfigElement.postSet(self)
+        ConfigElement.postSet(self)
 
     def get(self):
         returnValue = []
@@ -183,7 +175,7 @@ class Config(object):
     def load(self):
         with open(self.filePath, "r") as f:
             jsondict = json.load(f)
-            self.element.set(jsondict, False)
+            self.element.set(jsondict)
 
     def save(self):
         for f in self.preSaveCallback:
