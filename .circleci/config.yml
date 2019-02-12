@@ -7,5 +7,6 @@ jobs:
       - checkout
       - run: sudo pip install --upgrade pip
       - run: sudo pip install coverage
+      - run: sudo pip install codacy-coverage
       - run: coverage run test.py
       - run: coverage report
