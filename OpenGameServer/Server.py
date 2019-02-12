@@ -4,9 +4,6 @@ class Server():
     def __init__(self, config):
         self.config = config
 
-    def isConfigured(self):
-        raise NotImplementedError()
-
     def create(self, manager):
         if self.isConfigured():
             raise Exception("Server already exists")

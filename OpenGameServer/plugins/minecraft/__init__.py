@@ -5,14 +5,9 @@ from OpenGameServer.plugins.minecraft import MinecraftServer
 
 game = "minecraft"
 
-def init(manager):
-    config = ConfigObject.ConfigDict({
-        "ServerVersionURL" : {
-                "1.13.2" : "https://launcher.mojang.com/v1/objects/3737db93722a9e39eeada7c27e7aca28b144ffa7/server.jar"
-            }
-        })
 
-    manager.config["Minecraft"] = config
+def init(manager):
+    pass
 
 def get(config):
     if not "maxMemory" in config.keys():
@@ -24,5 +19,6 @@ def get(config):
     if not "launchArgs"in config.keys():
         config["launchArgs"] = ["nogui"]
 
-    return MinecraftServer.MinecraftServer(config)
+    server = MinecraftServer.MinecraftServer(config)
+    return server
 

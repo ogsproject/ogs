@@ -132,7 +132,11 @@ class Manager(object):
 
 
     def start(self, name):
-        pass
+        serverConfig = self.getServerFromName(name)
+        server = self.getServer(serverConfig)
+        if server == None:
+            raise Exception("Server %s not existing" % name)
+        server.start()
 
 
     @property
