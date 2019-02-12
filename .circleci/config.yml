@@ -5,6 +5,6 @@ jobs:
       - image: circleci/python:3.6.4
     steps:
       - checkout
-      - run: pip install --upgrade pip
-      - run: pip install coverage
+      - run: sudo pip install --upgrade pip
+      - run: sudo pip install coverage
       - run: coverage run test.py
