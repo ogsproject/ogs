@@ -41,14 +41,14 @@ class ConfigElementTest(unittest.TestCase):
             config = ConfigObject.ConfigList(1)
 
     def test_list_2(self):
-        config = ConfigObject.ConfigList()
+        config = ConfigObject.ConfigList([])
         config.set([
             ConfigObject.ConfigScalar(1)
         ])
         self.assertEqual(config[0].get(), 1)
 
     def test_list_3(self):
-        config = ConfigObject.ConfigList()
+        config = ConfigObject.ConfigList([])
         config.set([0,1,2,3,4])
         a = []
         for i in config:
@@ -66,7 +66,7 @@ class ConfigElementTest(unittest.TestCase):
             config[0] = 10
 
     def test_list_4(self):
-        config = ConfigObject.ConfigList()
+        config = ConfigObject.ConfigList([])
         config.set([0,1])
         config[0].set(10)
         self.assertEqual(config[0].get(), 10)

@@ -27,7 +27,6 @@ class ConfigElement(object):
     def __init__(self):
         self.parent = None
         self.config = None
-        pass
 
     def toJson(self):
         raise NotImplementedError
@@ -115,7 +114,7 @@ class ConfigDict(ConfigElement):
 """
 """
 class ConfigList(ConfigElement):
-    def __init__(self, data = [], description = None):
+    def __init__(self, data, description = None):
         ConfigElement.__init__(self)
         self.set(data)
 
@@ -124,8 +123,12 @@ class ConfigList(ConfigElement):
         ConfigElement.postSet(self)
 
     def set(self, data):
+        if data == None:
+            raise ConfigException("Can't set dict to None")
+            
         if not type(data) == list:
             raise ConfigException("Not a list")
+
         self.__data = []
         for e in data:
             element = toConfigElement(e)

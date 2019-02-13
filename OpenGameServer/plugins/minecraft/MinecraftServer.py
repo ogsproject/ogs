@@ -7,7 +7,7 @@ class MinecraftServer(Server.Server):
         self.game = game
         Server.Server.__init__(self, config)
 
-    def create(self, config):
+    def create(self, manager):
         downloadedFile = Downloader.getFileFromUrl(self.game.ServerVersionURL["1.13.2"])
         with open("server.ar", "wb") as f:
             f.write(downloadedFile.read())

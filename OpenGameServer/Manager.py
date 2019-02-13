@@ -13,7 +13,6 @@ from OpenGameServer import Server
 class PluginManager(object): 
     def __init__(self):
         self.plugins = {}
-        pass
 
     def load(self, path):
         for d in os.listdir(path):
