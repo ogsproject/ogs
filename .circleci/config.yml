@@ -2,7 +2,7 @@ version: 1
 jobs:
   build:
     docker:
-      - image: circleci/python:3.6.4
+      - image: circleci/python:3.6.5
     environment:
       CODACY_PROJECT_TOKEN: 8487e936bb8d4b3e8e4638c48dae1b10
     steps:
