@@ -1,4 +1,4 @@
-import os, datetime, urllib
+import os, datetime
 from urllib import request, parse
 
 class DownloadingFile(object):
@@ -15,10 +15,10 @@ class DownloadingFile(object):
 
 def getFileFromUrl(url):
     filePath = "test.download"
-    #nosec
     parsedUrl = parse.urlparse(url)
     if parsedUrl.scheme != "https" and parsedUrl.scheme != "http":
         raise Exception("unsupported scheme")
+    #nosec
     response = request.urlopen(url)
     urlDate = datetime.datetime.strptime(response.headers["Last-Modified"], '%a, %d %b %Y %H:%M:%S GMT')
     urlDate = urlDate.replace(tzinfo = datetime.timezone.utc).astimezone(tz=None)
