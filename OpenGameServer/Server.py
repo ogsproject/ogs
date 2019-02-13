@@ -19,7 +19,7 @@ class Server():
     def stop(self):
         if not self.isConfigured():
             raise Exception("Server not configured")
- 
+
     def sendCommand(self, command):
         if not self.isConfigured():
             raise Exception("Server not configured")

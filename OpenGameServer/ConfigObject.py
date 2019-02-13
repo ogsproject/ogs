@@ -186,7 +186,7 @@ class Config(object):
         os.makedirs(os.path.dirname(self.filePath), exist_ok=True)
         with open(self.filePath, "w") as f:
             json.dump(self.element.toJson(), f, sort_keys=True, indent=4)
- 
+
     def autoSave(self):
         if self.autoSaveEnabled:
             self.save()
