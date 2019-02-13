@@ -6,8 +6,9 @@ import string
 from OpenGameServer import ConfigObject
 from OpenGameServer import Global
 from OpenGameServer import Server
+from OpenGameServer import Game
 
-class PluginManager(object):
+class GameManager(object):
     def __init__(self):
         self.plugins = {}
 
@@ -18,9 +19,18 @@ class PluginManager(object):
                 module = importlib.util.module_from_spec(spec)
                 spec.loader.exec_module(module)
                 game = module.getGame()
-                self.plugins[game.name] = game
+                self.addGame(game)
             except Exception as e:
                 print ("error loading module %s : %s" % (d, str(e)))
+
+    def addGame(self, game):
+        if not issubclass(type(game), Game.Game):
+            raise Exception("Not a sub class of Game.Game")
+
+        if self.getGame(game.name) != None:
+            raise Exception("Game already exists %s" % game.name)
+
+        self.plugins[game.name] = game
 
     def getGame(self, name):
         if not name in self.plugins.keys():
@@ -30,7 +40,7 @@ class PluginManager(object):
 
 class Manager(object):
     def __init__(self):
-        self.pluginManager = PluginManager()
+        self.gameManager = GameManager()
         self.config = ConfigObject.ConfigDict({
             "ServerList" :
             [
@@ -47,16 +57,18 @@ class Manager(object):
 
         self.ServersDataPath = Global.config.ServersDataPath
 
-        self.pluginManager.load(os.path.join(os.path.dirname(__file__), "plugins"))
+
+    def loadPlugins(self, path):
+        self.gameManager.load(os.path.join(os.path.dirname(__file__), "games"))
 
 
     def preSaveConfig(self):
         pass
 
     def getServer(self, config):
-        game = self.pluginManager.getGame(config["game"].get())
+        game = self.gameManager.getGame(config["game"].get())
         if game == None:
-            raise Exception("No plugin for %s" %(config["game"].get()))
+            raise Exception("No game for %s" %(config["game"].get()))
 
         server = game.getServer(config)
         if not issubclass(type(server), Server.Server):

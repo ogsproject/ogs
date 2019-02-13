@@ -1,10 +1,12 @@
 #! /usr/bin/env python3
 
-import argparse
+import argparse, os
 
-from OpenGameServer import Manager
+from OpenGameServer import Manager, Global
 
+Global.config.init()
 manager = Manager.Manager()
+manager.loadPlugins(os.path.join(os.path.dirname(__file__), "games"))
 
 def new(args):
     manager.createServer(args.game)
