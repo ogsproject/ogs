@@ -10,6 +10,7 @@ class Global(object):
         self.GlobalConfigFilename = "global.json"
         self.config = ConfigObject.Config(os.path.join(self.GlobalConfigPath, self.GlobalConfigFilename), ConfigObject.ConfigDict({
             "MinecraftServerManagerConfigLocation" : self.GlobalConfigPath,
+            "MinecraftServerManagerConfigFilename": self.GlobalConfigFilename,
             "ServerRootLocation" : os.path.join(self.RootPath, "servers"),
             "ServerBinaryLocation" : os.path.join(self.RootPath, "binary"),
             "JavaBinPath" : "java"
@@ -20,6 +21,7 @@ class Global(object):
             self.config.load()
 
 
+    @property
     def MinecraftServerManagerConfigLocation(self):
         return self.config.element["MinecraftServerManagerConfigLocation"].get()
 
@@ -38,6 +40,10 @@ class Global(object):
     @property
     def JavaBinPath(self):
         return self.config.element["JavaBinPath"].get()
+
+    @property
+    def MinecraftServerManagerConfigFilename(self):
+        return self.config.element["MinecraftServerManagerConfigFilename"].get()
 
 config = Global()
 
