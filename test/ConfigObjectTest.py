@@ -65,13 +65,13 @@ class ConfigElementTest(unittest.TestCase):
         with self.assertRaises(TypeError):
             config[0] = 10
 
-    def test_list_4(self):
+    def test_list_5(self):
         config = ConfigObject.ConfigList([])
         config.set([0,1])
         config[0].set(10)
         self.assertEqual(config[0].get(), 10)
 
-    def test_list_5(self):
+    def test_list_6(self):
         config = ConfigObject.ConfigList([1,2,3,4])
         self.assertEqual(config.toJson(), [1,2,3,4])
 
