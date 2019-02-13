@@ -5,15 +5,15 @@ def toConfigElement(data):
         return data
 
     if type(data) == int or\
-            type(data) == bool or\
-            type(data) == str or\
-            type(data) == float:
+            isinstance(data, bool) or\
+            isinstance(data, str) or\
+            isinstance(data, float):
                 return ConfigScalar(data)
 
-    if type(data) == list:
+    if isinstance(data, list):
         return ConfigList(data)
 
-    if type(data) == dict:
+    if isinstance(data,  dict):
         return ConfigDict(data)
 
     raise ConfigException("Unsuported type")
@@ -53,10 +53,10 @@ class ConfigScalar(ConfigElement):
         self.set(data)
 
     def set(self, data):
-        if type(data) != int and\
-            type(data) != bool and\
-            type(data) != str and\
-            type(data) != float:
+        if not isinstance(data,  int) and\
+            not isinstance(data, bool) and\
+            not isinstance(data, str) and\
+            not isinstance(data,  float):
                 raise ConfigException("")
         self.__data = data
         ConfigElement.postSet(self)
@@ -75,7 +75,7 @@ class ConfigDict(ConfigElement):
         self.set(data)
 
     def set(self, data):
-        if not type(data) == dict:
+        if not isinstance(data, dict):
             raise ConfigException("Not a dict")
         self.__data = {}
         for k in data.keys():
@@ -126,7 +126,7 @@ class ConfigList(ConfigElement):
         if data == None:
             raise ConfigException("Can't set dict to None")
             
-        if not type(data) == list:
+        if not isinstance(data, list):
             raise ConfigException("Not a list")
 
         self.__data = []
