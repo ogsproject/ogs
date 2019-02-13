@@ -54,16 +54,6 @@ class Manager(object):
         self.pluginManager.load(os.path.join(os.path.dirname(__file__), "plugins"))
 
 
-    def getFileFromUrl(self , version):
-        filePath = os.path.join(self.config["ServerBinaryLocation"].get(), version)
-        if not os.path.exists(filePath):
-            url = self.config["ServerDownloadLink"][version].get()
-            with urllib.request.urlopen(url) as response:
-                print (response.headers)
-                with open(filePath, "wb") as fileDownloaded:
-                    fileDownloaded.write(response.read())
-        return filePath
-
     def preSaveConfig(self):
         pass
 
