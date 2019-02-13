@@ -5,53 +5,40 @@ from OpenGameServer import ConfigObject
 
 class Global(object):
     def __init__(self):
-        self.RootPath = "data"
-        self.GlobalConfigPath = "data/etc/"
-        self.GlobalConfigFilename = "global.json"
-        self.config = ConfigObject.Config(os.path.join(self.GlobalConfigPath, self.GlobalConfigFilename), ConfigObject.ConfigDict({
-            "MinecraftServerManagerConfigLocation" : self.GlobalConfigPath,
-            "MinecraftServerManagerConfigFilename": self.GlobalConfigFilename,
-            "ServerRootLocation" : os.path.join(self.RootPath, "servers"),
-            "ServerBinaryLocation" : os.path.join(self.RootPath, "binary"),
-            "JavaBinPath" : "java"
-        }))
-        if not os.path.exists(self.config.filePath):
-            self.config.save()
+        self.ConfigPath = "run/etc/ogs"
+        self.ConfigFileName = "global.json"
+        self.ConfigFilePath = os.path.join(self.ConfigPath, self.ConfigFileName)
+
+        self.config =ConfigObject.ConfigDict({
+            "DataPath" : "run/data",
+            "ServersConfigPath" : "run/servers/config",
+            "ServersDataPath" : "run/servers/data"
+        })
+
+        self.configFile = ConfigObject.Config(self.ConfigFilePath, self.config)
+        if not os.path.exists(self.configFile.filePath):
+            self.configFile.save()
         else:
-            self.config.load()
+            self.configFile.load()
+
+        os.makedirs(self.DataPath, mode=0o777, exist_ok = True)
+        os.makedirs(self.ServersConfigPath, mode=0o777, exist_ok = True)
+        os.makedirs(self.ServersDataPath, mode=0o777, exist_ok = True)
 
 
-    @property
-    def MinecraftServerManagerConfigLocation(self):
-        return self.config.element["MinecraftServerManagerConfigLocation"].get()
-
-    @property
-    def MinecraftServerManagerConfigFilePath(self):
-        return os.path.join(self.MinecraftServerManagerConfigLocation, self.MinecraftServerManagerConfigFilename)
 
     @property
-    def ServerRootLocation(self):
-        return self.config.element["ServerRootLocation"].get()
+    def DataPath(self):
+        return self.config["DataPath"].get()
 
     @property
-    def ServerBinaryLocation(self):
-        return self.config.element["ServerBinaryLocation"].get()
+    def ServersConfigPath(self):
+        return self.config["ServersConfigPath"].get()
 
     @property
-    def JavaBinPath(self):
-        return self.config.element["JavaBinPath"].get()
-
-    @property
-    def MinecraftServerManagerConfigFilename(self):
-        return self.config.element["MinecraftServerManagerConfigFilename"].get()
+    def ServersDataPath(self):
+        return self.config["ServersDataPath"].get()
 
 config = Global()
 
-#MinecraftServerManagerConfigPath = "config.json"
-
-#JavaBinPath = "/usr/bin/java"
-#MinecraftServerJarPath = "server.jar"
-#SourceMinecraftServerJarPath = "data/server.jar"
-#MinecraftServerArgs = ["nogui"]
-#MinecraftServerName = "server1"
 

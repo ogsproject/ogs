@@ -33,17 +33,15 @@ class PluginManager(object):
 
 
 class Manager(object):
-    def __init__(self, filePath):
+    def __init__(self):
         self.pluginManager = PluginManager()
         self.config = ConfigObject.ConfigDict({
-            "ServerRootLocation" : Global.config.ServerRootLocation,
-            "ServerBinaryLocation" : Global.config.ServerBinaryLocation,
             "ServerList" :
             [
             ]
         })
 
-        self.configFile = ConfigObject.Config(filePath, self.config)
+        self.configFile = ConfigObject.Config(os.path.join(Global.config.ConfigPath, "servers.json"), self.config)
         self.configFile.preSaveCallback.append(self.preSaveConfig)
 
         if not os.path.exists(self.configFile.filePath):
@@ -51,11 +49,7 @@ class Manager(object):
         else:
             self.configFile.load()
 
-        if not os.path.isdir(self.config["ServerRootLocation"].get()):
-            os.mkdir(self.config["ServerRootLocation"].get())
-
-        if not os.path.isdir(self.config["ServerBinaryLocation"].get()):
-            os.mkdir(self.config["ServerBinaryLocation"].get())
+        self.ServersDataPath = Global.config.ServersDataPath
 
         self.pluginManager.load(os.path.join(os.path.dirname(__file__), "plugins"))
 
@@ -114,7 +108,7 @@ class Manager(object):
 
         return ConfigObject.ConfigDict({
             "name" : name,
-            "workingDirectory" : os.path.join(self.config["ServerRootLocation"].get(), name),
+            "workingDirectory" : os.path.join(self.ServersDataPath, name),
             "game" : game
         })
 

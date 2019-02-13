@@ -5,7 +5,7 @@ import argparse
 from OpenGameServer import Manager
 from OpenGameServer import Global
 
-manager = Manager.Manager(Global.config.MinecraftServerManagerConfigFilePath)
+manager = Manager.Manager()
 
 def new(args):
     server = manager.createServer(args.game)
