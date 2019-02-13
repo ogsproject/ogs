@@ -3,12 +3,11 @@
 import argparse
 
 from OpenGameServer import Manager
-from OpenGameServer import Global
 
 manager = Manager.Manager()
 
 def new(args):
-    server = manager.createServer(args.game)
+    manager.createServer(args.game)
 
 def setProp(args):
     manager.setServer(args.name, args.prop, args.val)
@@ -53,14 +52,13 @@ if __name__ == "__main__":
         parser.print_help()
 
 
-"""
-from flask import Flask
 
-app = Flask(__name__)
+# from flask import Flask
 
-app.run()
+# app = Flask(__name__)
 
-@app.route("/")
-def hello():
-    return "Hello World!"
-"""
+# app.run()
+
+# @app.route("/")
+# def hello():
+#     return "Hello World!"

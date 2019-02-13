@@ -1,5 +1,5 @@
 
-import unittest, json, os
+import unittest, json
 from OpenGameServer import ConfigObject
 
 
@@ -38,7 +38,7 @@ class ConfigElementTest(unittest.TestCase):
 
     def test_list_1(self):
         with self.assertRaises(ConfigObject.ConfigException):
-            config = ConfigObject.ConfigList(1)
+            ConfigObject.ConfigList(1)
 
     def test_list_2(self):
         config = ConfigObject.ConfigList([])
@@ -77,7 +77,7 @@ class ConfigElementTest(unittest.TestCase):
 
     def test_dict_1(self):
         with self.assertRaises(ConfigObject.ConfigException):
-            config = ConfigObject.ConfigDict(1)
+            ConfigObject.ConfigDict(1)
 
     def test_dict_2(self):
         config = ConfigObject.ConfigDict({"test": 1})
@@ -96,7 +96,7 @@ class ConfigElementTest(unittest.TestCase):
         config = ConfigObject.ConfigDict({"test": 1})
         strJson = json.dumps(config.toJson())
         loadJson = json.loads(strJson)
-        configLoaded = ConfigObject.toConfigElement(loadJson)
+        ConfigObject.toConfigElement(loadJson)
         self.assertEqual(config["test"].get() , 1)
 
 
