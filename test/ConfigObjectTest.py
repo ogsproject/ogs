@@ -78,7 +78,7 @@ class ConfigElementTest(unittest.TestCase):
     def test_dict_1(self):
         with self.assertRaises(ConfigObject.ConfigException):
             config = ConfigObject.ConfigDict(1)
-    
+ 
     def test_dict_2(self):
         config = ConfigObject.ConfigDict({"test": 1})
         self.assertEqual(config["test"].get(), 1)

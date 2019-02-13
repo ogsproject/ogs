@@ -10,7 +10,7 @@ from OpenGameServer import ConfigObject
 from OpenGameServer import Global
 from OpenGameServer import Server
 
-class PluginManager(object): 
+class PluginManager(object):
     def __init__(self):
         self.plugins = {}
 

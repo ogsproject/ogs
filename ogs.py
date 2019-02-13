@@ -10,7 +10,7 @@ manager = Manager.Manager()
 def new(args):
     server = manager.createServer(args.game)
 
-def set(args):
+def setProp(args):
     manager.setServer(args.name, args.prop, args.val)
 
 def run(args):
@@ -41,7 +41,7 @@ if __name__ == "__main__":
         new(args)
 
     elif args.command == "set":
-        set(args)
+        setProp(args)
 
     elif args.command == "start":
         run(args)

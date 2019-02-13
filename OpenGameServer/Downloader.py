@@ -11,7 +11,7 @@ class DownloadingFile(object):
     def __enter__(self):
         pass
 
-    def __exit__(self, type, value, traceback):
+    def __exit__(self, thType, value, traceback):
         self.close()
 
     def read(self):

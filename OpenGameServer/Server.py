@@ -3,6 +3,7 @@ import os
 class Server():
     def __init__(self, config):
         self.config = config
+        self.supportedCommand = []
 
     def create(self, manager):
         if self.isConfigured():
@@ -18,13 +19,13 @@ class Server():
     def stop(self):
         if not self.isConfigured():
             raise Exception("Server not configured")
-    
+ 
     def sendCommand(self, command):
         if not self.isConfigured():
             raise Exception("Server not configured")
 
     def getSupportedCommand(self):
-        return []
+        return self.supportedCommand
 
     @property
     def workingDirectory(self):

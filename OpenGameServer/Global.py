@@ -1,7 +1,6 @@
 import os
 from OpenGameServer import ConfigObject
 
-# directory 
 
 class Global(object):
     def __init__(self):
