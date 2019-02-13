@@ -15,6 +15,7 @@ class DownloadingFile(object):
 
 def getFileFromUrl(url):
     filePath = "test.download"
+    #nosec
     parsedUrl = parse.urlparse(url)
     if parsedUrl.scheme != "https" and parsedUrl.scheme != "http":
         raise Exception("unsupported scheme")
