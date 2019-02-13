@@ -165,8 +165,6 @@ class ConfigList(ConfigElement):
         return self.__data[key]
 
 
-"""
-"""
 class Config(object):
     def __init__(self, filePath, configElement = None):
         self.filePath = filePath
