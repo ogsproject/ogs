@@ -44,8 +44,6 @@ class ConfigElement(object):
     def __str__(self):
         return json.dumps(self.toJson(), sort_keys=True, indent=4)
 
-"""
-"""
 class ConfigScalar(ConfigElement):
     def __init__(self, data, description = None):
         ConfigElement.__init__(self)
@@ -67,8 +65,6 @@ class ConfigScalar(ConfigElement):
     def toJson(self):
         return self.__data
 
-"""
-"""
 class ConfigDict(ConfigElement):
     def __init__(self, data, description = None):
         ConfigElement.__init__(self)
@@ -111,8 +107,6 @@ class ConfigDict(ConfigElement):
         ConfigElement.postSet(self)
 
 
-"""
-"""
 class ConfigList(ConfigElement):
     def __init__(self, data, description = None):
         ConfigElement.__init__(self)
