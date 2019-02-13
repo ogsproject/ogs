@@ -1,4 +1,4 @@
-import unittest, json, os
+import unittest
 from OpenGameServer import Downloader
 
 
