@@ -8,11 +8,22 @@ class DownloadingFile(object):
         self.filePath = filePath
         self.outStream = open(filePath, "wb")
 
+    def __enter__(self):
+        pass
+
+    def __exit__(self, type, value, traceback):
+        self.close()
+
     def read(self):
         self.outStream.write(self.stream.read())
         self.outStream.flush()
         self.outStream.close()
-        return open(self.filePath, "rb").read()
+        self.outStream = open(self.filePath, "rb").read()
+        return self.outStream
+
+    def close(self):
+        self.outStream.close()
+
 
 def getFileFromUrl(url):
     downloadDir = os.path.join(Global.config.DataPath, "download")
