@@ -1,10 +1,11 @@
 import os
 
 from OpenGameServer import ConfigObject
-from OpenGameServer.plugins.minecraft import MinecraftServer
+from OpenGameServer import Game
+from games.minecraft import MinecraftServer
 
 
-class Minecraft(object):
+class Minecraft(Game.Game):
     name = "minecraft"
 
     def __init__(self):

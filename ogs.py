@@ -2,7 +2,7 @@
 
 import argparse, os
 
-from OpenGameServer import Manager, Global
+from OpenGameServer import Manager, Global, Log
 
 Global.config.init()
 manager = Manager.Manager()

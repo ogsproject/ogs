@@ -1,6 +1,7 @@
 import os, datetime, base64
 from urllib import request, parse
 from OpenGameServer import Global
+from OpenGameServer import Log
 
 class DownloadingFile(object):
     def __init__(self, stream, filePath):
@@ -48,6 +49,7 @@ def getFileFromUrl(url):
         needToDownload = urlDate > fileDate
 
     if needToDownload:
+        Log.info("Downloading file from %s", url)
         return DownloadingFile(response, filePath)
     else:
         return open(filePath, "rb")

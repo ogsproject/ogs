@@ -7,12 +7,14 @@ from OpenGameServer import ConfigObject
 from OpenGameServer import Global
 from OpenGameServer import Server
 from OpenGameServer import Game
+from OpenGameServer import Log
 
 class GameManager(object):
     def __init__(self):
         self.plugins = {}
 
     def load(self, path):
+        Log.info("Loading games from directory %s", path)
         for d in os.listdir(path):
             try:
                 spec = importlib.util.spec_from_file_location(d, os.path.join(path, d, "__init__.py"))
@@ -21,7 +23,7 @@ class GameManager(object):
                 game = module.getGame()
                 self.addGame(game)
             except Exception as e:
-                print ("error loading module %s : %s" % (d, str(e)))
+                Log.warning("Error loading game %s : %s", d, str(e))
 
     def addGame(self, game):
         if not issubclass(type(game), Game.Game):
@@ -31,6 +33,7 @@ class GameManager(object):
             raise Exception("Game already exists %s" % game.name)
 
         self.plugins[game.name] = game
+        Log.info("Loaded games %s", game.name)
 
     def getGame(self, name):
         if not name in self.plugins.keys():
@@ -57,10 +60,8 @@ class Manager(object):
 
         self.ServersDataPath = Global.config.ServersDataPath
 
-
     def loadPlugins(self, path):
-        self.gameManager.load(os.path.join(os.path.dirname(__file__), "games"))
-
+        self.gameManager.load(path)
 
     def preSaveConfig(self):
         pass
@@ -76,10 +77,10 @@ class Manager(object):
 
         return server
 
-
     def createServer(self, game):
-        config = self.getTempServerConfig(game)
+        config = self.getInitialServerConfig(game)
         server = self.getServer(config)
+        os.makedirs(server.workingDirectory)
         server.create(self)
         self.__appendServer(server)
 
@@ -96,8 +97,7 @@ class Manager(object):
                 return s
         return None
 
-
-    def getTempServerConfig(self, game):
+    def getInitialServerConfig(self, game):
         name = None
         while True:
             name = ''.join(random.choices(string.ascii_uppercase + string.digits, k=10))
@@ -110,10 +110,8 @@ class Manager(object):
             "game" : game
         })
 
-
     def __appendServer(self, server):
         self.ServerList.append(server.config)
-
 
     def start(self, name):
         serverConfig = self.getServerFromName(name)
@@ -121,7 +119,6 @@ class Manager(object):
         if server == None:
             raise Exception("Server %s not existing" % name)
         server.start()
-
 
     @property
     def ServerList(self):

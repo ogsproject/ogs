@@ -1,3 +1,5 @@
+import os
+
 from OpenGameServer import Server
 from OpenGameServer import Downloader
 
@@ -9,5 +11,6 @@ class MinecraftServer(Server.Server):
 
     def create(self, manager):
         downloadedFile = Downloader.getFileFromUrl(self.game.ServerVersionURL["1.13.2"])
-        with open("server.ar", "wb") as f:
+        jarFile = os.path.join(self.workingDirectory, "server.jar")
+        with open(jarFile, "wb") as f:
             f.write(downloadedFile.read())
