@@ -2,10 +2,10 @@
 
 import argparse, os
 
-from OpenGameServer import Manager, Global, Log
+from OpenGameServer import ServerManager, Global, Log
 
 Global.config.init()
-manager = Manager.Manager()
+manager = ServerManager.ServerManager()
 manager.loadPlugins(os.path.join(os.path.dirname(__file__), "games"))
 
 def new(args):

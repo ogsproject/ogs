@@ -1,11 +1,11 @@
 import unittest
-from OpenGameServer import Manager
+from OpenGameServer import ServerManager
 
 
 class ManagerTest(unittest.TestCase):
 
     def test_init(self):
-        Manager.Manager()
+        ServerManager.ServerManager()
 
     def test_loadPlugint(self):
-        Manager.Manager()
+        ServerManager.ServerManager()

@@ -1,5 +1,5 @@
 import unittest, os
-from OpenGameServer import Manager, Server, Game
+from OpenGameServer import GameManager, Server, Game
 
 class TestGame1(object):
     def __init__(self):
@@ -18,22 +18,22 @@ class TestGame3(Game.Game):
 class GameManagerTest(unittest.TestCase):
 
     def test_init(self):
-        Manager.GameManager()
+        GameManager.GameManager()
 
     def test_loadPlugint1(self):
-        gameManager = Manager.GameManager()
+        gameManager = GameManager.GameManager()
         with self.assertRaises(Exception):
             gameManager.addGame(TestGame1())
 
     def test_loadPlugint2(self):
-        gameManager = Manager.GameManager()
+        gameManager = GameManager.GameManager()
         with self.assertRaises(Exception):
             gameManager.addGame(TestGame2())
 
     def test_loadPlugint3(self):
-        gameManager = Manager.GameManager()
+        gameManager = GameManager.GameManager()
         gameManager.addGame(TestGame3())
 
     def test_loadPlugintPath1(self):
-        gameManager = Manager.GameManager()
+        gameManager = GameManager.GameManager()
         gameManager.load(os.path.join(os.path.dirname(__file__), "games"))
