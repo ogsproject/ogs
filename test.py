@@ -1,7 +1,7 @@
 #! /usr/bin/env python3
 
 import unittest, shutil
-from OpenGameServer import Global
+import ogs
 
 def suite():
     suite = unittest.TestSuite()
@@ -11,11 +11,11 @@ def suite():
     return suite
 
 if __name__ == '__main__':
-    Global.config.ConfigPath = "run_test/etc/ogs"
-    Global.config.DataPath = "run_test/data"
-    Global.config.ServersConfigPath = "run_test/servers/config"
-    Global.config.ServersDataPath = "run_test/servers/data"
-    Global.config.init()
+    ogs.GlobalConfig.ConfigPath = "run_test/etc/ogs"
+    ogs.GlobalConfig.DataPath = "run_test/data"
+    ogs.GlobalConfig.ServersConfigPath = "run_test/servers/config"
+    ogs.GlobalConfig.ServersDataPath = "run_test/servers/data"
+    ogs.GlobalConfig.init()
 
     runner = unittest.TextTestRunner()
     runner.run(suite())

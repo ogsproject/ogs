@@ -1,24 +1,23 @@
 import os
 import random
 import string
+import sys
 
-from OpenGameServer import ConfigObject
-from OpenGameServer import Global
-from OpenGameServer import Server
-from OpenGameServer import Game
-from OpenGameServer import Log
-from OpenGameServer import GameManager
+from . import GameManager
+from . import Config
+from . import Global
+from . import Server
 
 class ServerManager(object):
     def __init__(self):
         self.gameManager = GameManager.GameManager()
-        self.config = ConfigObject.ConfigDict({
+        self.config = Config.ConfigDict({
             "ServerList" :
             [
             ]
         })
 
-        self.configFile = ConfigObject.Config(os.path.join(Global.config.ConfigPath, "servers.json"), self.config)
+        self.configFile = Global.Config(os.path.join(Global.GlobalConfig.ConfigPath, "servers.json"), self.config)
         self.configFile.preSaveCallback.append(self.preSaveConfig)
 
         if not os.path.exists(self.configFile.filePath):
@@ -26,9 +25,10 @@ class ServerManager(object):
         else:
             self.configFile.load()
 
-        self.ServersDataPath = Global.config.ServersDataPath
+        self.ServersDataPath = Global.GlobalConfig.ServersDataPath
 
-    def loadPlugins(self, path):
+    def loadGames(self, path):
+        sys.path.append(path)
         self.gameManager.load(path)
 
     def preSaveConfig(self):
@@ -72,7 +72,7 @@ class ServerManager(object):
             if self.getServerFromName(name) == None:
                 break
 
-        return ConfigObject.ConfigDict({
+        return Config.ConfigDict({
             "name" : name,
             "workingDirectory" : os.path.join(self.ServersDataPath, name),
             "game" : game

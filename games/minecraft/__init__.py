@@ -1,11 +1,14 @@
-import os
+import os, sys
+import ogs
 
-from OpenGameServer import ConfigObject
-from OpenGameServer import Game
-from games.minecraft import MinecraftServer
+__version__ = "1.0.0"
+__title__ = "minecraft"
 
 
-class Minecraft(Game.Game):
+from . import MinecraftServer
+
+
+class Minecraft(ogs.Game):
     name = "minecraft"
 
     def __init__(self):

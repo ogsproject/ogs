@@ -1,5 +1,6 @@
 import os
-from OpenGameServer import ConfigObject
+
+from .Config import ConfigElement, ConfigDict, Config
 
 
 class Global(object):
@@ -8,7 +9,7 @@ class Global(object):
         self.ConfigPath = "run/etc/ogs"
         self.ConfigFileName = "global.json"
 
-        self.config =ConfigObject.ConfigDict({
+        self.config = ConfigDict({
             "DataPath" : "run/data",
             "ServersConfigPath" : "run/servers/config",
             "ServersDataPath" : "run/servers/data"
@@ -21,7 +22,7 @@ class Global(object):
         os.makedirs(self.ServersDataPath, mode=0o777, exist_ok = True)
 
         self.ConfigFilePath = os.path.join(self.ConfigPath, self.ConfigFileName)
-        self.configFile = ConfigObject.Config(self.ConfigFilePath, self.config)
+        self.configFile = Config(self.ConfigFilePath, self.config)
         if not os.path.exists(self.configFile.filePath):
             self.configFile.save()
         else:
@@ -57,6 +58,6 @@ class Global(object):
     def ServersDataPath(self, value):
         return self.config["ServersDataPath"].set(value)
 
-config = Global()
+GlobalConfig = Global()
 
 

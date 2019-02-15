@@ -1,16 +1,15 @@
 import os
 
-from OpenGameServer import Server
-from OpenGameServer import FileManager
+import ogs
 
 
-class MinecraftServer(Server.Server):
+class MinecraftServer(ogs.Server):
     def __init__(self, game, config):
         self.game = game
-        Server.Server.__init__(self, config)
+        ogs.Server.__init__(self, config)
 
     def create(self, manager):
-        downloadedFile = FileManager.getFileFromUrl(self.game.ServerVersionURL["1.13.2"])
+        downloadedFile = ogs.FileManager.getFileFromUrl(self.game.ServerVersionURL["1.13.2"])
         jarFile = os.path.join(self.workingDirectory, "server.jar")
         with open(jarFile, "wb") as f:
             f.write(downloadedFile.read())

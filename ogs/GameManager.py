@@ -1,8 +1,8 @@
 import os
 import importlib.util
 
-from OpenGameServer import Game
-from OpenGameServer import Log
+from . import Game
+from . import Log
 
 class GameManager(object):
     def __init__(self):
@@ -18,7 +18,7 @@ class GameManager(object):
                 game = module.getGame()
                 self.addGame(game)
             except Exception as e:
-                Log.warning("Error loading game %s : %s", d, str(e))
+                Log.error(e, exc_info=True)
 
     def addGame(self, game):
         if not issubclass(type(game), Game.Game):

@@ -1,11 +1,9 @@
 import unittest
-from OpenGameServer import ServerManager
+import ogs
 
 
 class ManagerTest(unittest.TestCase):
 
     def test_init(self):
-        ServerManager.ServerManager()
+        ogs.ServerManager()
 
-    def test_loadPlugint(self):
-        ServerManager.ServerManager()

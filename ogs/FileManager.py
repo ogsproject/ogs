@@ -1,7 +1,8 @@
 import os, datetime, base64
 from urllib import request, parse
-from OpenGameServer import Global
-from OpenGameServer import Log
+
+from .Global import GlobalConfig
+from . import Log
 
 class DownloadingFile(object):
     def __init__(self, stream, filePath):
@@ -27,11 +28,11 @@ class DownloadingFile(object):
 
 
 def getFileFromUrl(url):
-    downloadDir = os.path.join(Global.config.DataPath, "download")
+    downloadDir = os.path.join(GlobalConfig.DataPath, "download")
     os.makedirs(downloadDir, mode = 0o777, exist_ok = True)
 
     filename = str(base64.b64encode(bytes(url, "utf8")).decode("utf8"))
-    filePath = os.path.join(Global.config.DataPath, "download", filename)
+    filePath = os.path.join(GlobalConfig.DataPath, "download", filename)
     parsedUrl = parse.urlparse(url)
     if parsedUrl.scheme != "https" and parsedUrl.scheme != "http":
         raise Exception("unsupported scheme")
