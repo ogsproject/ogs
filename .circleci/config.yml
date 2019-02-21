@@ -9,7 +9,9 @@ jobs:
       - checkout
       - run: sudo pip install --upgrade pip
       - run: sudo pip install coverage
+      - run: sudo pip install pytest
       - run: sudo pip install codacy-coverage
       - run: coverage run test.py
+      - run: python3 -m pytest test/*.py
       - run: coverage xml --omit=test/*,test.py
       - run: python-codacy-coverage -r coverage.xml
