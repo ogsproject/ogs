@@ -2,6 +2,7 @@
 
 import unittest, shutil
 import ogs
+import test.conftest
 
 def suite():
     suite = unittest.TestSuite()

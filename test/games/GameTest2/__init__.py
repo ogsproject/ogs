@@ -1,9 +1,7 @@
-from OpenGameServer import Server
-from OpenGameServer import Game
-from OpenGameServer import Downloader
+from ogs import Game
 
 
-class GameTest1(Game.Game):
+class GameTest1(Game):
     name = "GameTest1"
     def __init__(self):
         pass

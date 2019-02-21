@@ -4,28 +4,47 @@ class Server():
     def __init__(self, config):
         self.config = config
         self.supportedCommand = []
+        self.supportedProperties = []
 
-    def create(self, manager):
-        if self.isConfigured():
-            raise Exception("Server already exists")
-
+    def pre_create(self):
         if not os.path.exists(self.workingDirectory):
             os.mkdir(self.workingDirectory)
 
+    def create(self, manager):
+        raise NotImplementedError()
+
+    def post_create(self):
+        pass
+
+    def pre_start(self):
+        pass
+
     def start(self):
-        if not self.isConfigured():
-            raise Exception("Server not configured")
+        raise NotImplementedError()
+
+    def post_start(self):
+        pass
+
+    def pre_stop(self):
+        pass
 
     def stop(self):
-        if not self.isConfigured():
-            raise Exception("Server not configured")
+        raise NotImplementedError()
 
-    def sendCommand(self, command):
-        if not self.isConfigured():
-            raise Exception("Server not configured")
+    def post_stop(self):
+        pass
 
     def getSupportedCommand(self):
         return self.supportedCommand
+
+    def sendCommand(self, command):
+        raise NotImplementedError()
+
+    def getSupportedProperties(self):
+        return self.supportedProperties
+
+    def setProperty(self, name, value):
+        raise NotImplementedError()
 
     @property
     def workingDirectory(self):

@@ -28,7 +28,6 @@ class Minecraft(ogs.Game):
         server = MinecraftServer.MinecraftServer(self, config)
         return server
 
-
 def getGame():
     return Minecraft()
 
